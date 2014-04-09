@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IdeaBoardy Admin</title>
+  <%= stylesheet_link_tag "admin", :media => "all" %>
+  <%= javascript_include_tag "admin" %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container-fluid">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <div class="brand">IdeaBoardy Admin</div>
+      <div class="nav-collapse collapse">
+        <p class="navbar-text pull-right">
+          Logged in as <a href="mailto:<%= current_user.email %>" class="navbar-link"><%= current_user.email %></a>
+        </p>
+        <ul class="nav">
+          <li><%= link_to "Settings", admin_settings_path %></li>
+          <li><%= link_to "Boards", admin_boards_path %></li>
+          <li><%= link_to "Home", root_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid main">
+  <div class="row-fluid">
+    <div class="span3">
+      <div class="well sidebar-nav">
+        <ul class="nav nav-list">
+          <li class="nav-header">Settings</li>
+          <li><%= link_to "Manage Settings", admin_settings_path %></li>
+          <li class="nav-header">Boards</li>
+          <li><%= link_to "Export board(s)", admin_boards_path %></li>
+          <li><%= link_to "Import board(s)", admin_boards_import_path %></li>
+          <li class="nav-header">Home</li>
+          <li><%= link_to "Go To Home", root_path %></li>
+          <li class="nav-header">Sign out</li>
+          <li><%= button_to "Sign out", destroy_user_session_path, :method => :delete, :class => 'btn' %></li>
+        </ul>
+      </div>
+    </div>
+    <div class="span9">
+      <div class="hero-unit">
+        <div class="my-notice"><%= notice %></div>
+        <div class="my-alert"><%= alert %></div>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <footer>
+    <p>© ThirtyFiveSharp 2012</p>
+  </footer>
+
+</div>
+</body>
+</html>

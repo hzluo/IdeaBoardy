@@ -1,0 +1,28 @@
+<div class="section" ng-controller="SectionController" droppable draggable="section" type="section">
+    <meta draggable-type="idea" action="section.addImmigrant($draggableModel)"/>
+    <div class="section-title">
+        <span class="section-switch" ng-switch="section.expanded" ng-click="section.toggleExpand()">
+            <span class="arrow arrow-bottom" ng-switch-when="true"></span>
+            <span class="arrow arrow-right" ng-switch-when="false"></span>
+        </span>
+        <span class="section-info" ng-switch="section.mode">
+            <span class="view-section" ng-switch-when="view">
+                <span class="section-name" title="{{section.name}}">{{section.name}}</span>
+                <span class="ideas-count">({{(ideas | filter:filterIdeas).length}})</span>
+                <span class="command-icon edit-icon" ng-click="section.edit()" ng-show="section.editable"></span>
+            </span>
+            <form name="editSectionForm" class="edit-section" ng-switch-when="edit" ng-controller="EditSectionController" ng-submit="save()">
+                <input class="section-name" type="text" ng-model="editingSection.name" required error-message when-blur="save()" autofocus />
+                <color-picker for="editingSection" compact="true"></color-picker>
+            </form>
+        </span>
+    </div>
+    <ul class="idea-list clear-fix" ng-show="section.expanded">
+        <li ng-repeat="idea in ideas | filter:filterIdeas">
+            <ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/idea.html) %>'"></ng-include>
+        </li>
+        <li class="idea blank">
+            <a ng-click="showCreateIdeaDialog($event)">+ 1 idea</a>
+        </li>
+    </ul>
+</div>

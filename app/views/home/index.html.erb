@@ -1,0 +1,36 @@
+<header ng-controller="HeaderController">
+  <a ng-click="goToHomePage()">IdeaBoardy - <%= @setting.slogan %></a>
+  <% if user_signed_in?  %>
+    <div class="admin-container">
+      <%= button_to "admin", admin_path, class: "admin-link" %>
+    </div>
+  <%- end %>
+</header>
+
+<div id="main" class="clear-fix">
+  <div id="loading" jq-ui="hide" args="['drop', {}, 400]">
+    We are working hard to load the page, please wait...
+  </div>
+  <ng-view></ng-view>
+</div>
+
+<footer>
+  IdeaBoardy v<%= @setting.app_version %>
+</footer>
+
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/board-create.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/board-invite.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/board-delete.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/section-create.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/section-delete.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/idea-create.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/idea-edit.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/idea-delete.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/idea-merge.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/tag-create.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/tag-edit.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/tag-delete.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/tag-specify.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/concept-create.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/concept-edit.html) %>'"></ng-include>
+<ng-include src="'<%= %Q(#{ENV['RAILS_RELATIVE_URL_ROOT']}/assets/report-share.html) %>'"></ng-include>

@@ -1,0 +1,35 @@
+<div id="report" ng-controller="BoardReportController">
+    <dl class="board-info">
+        <dd class="name"><a ng-click="goToBoard()">{{board.name}}</a></dd>
+        <dd class="description">{{board.description}}</dd>
+        <div class="share-report">
+            <input class="btn-3" type="button" value="TagCloud" ng-click="showTagCloud()" jq-ui="button"/>
+            <input class="btn-3" type="button" value="Share" ng-click="showShareDialog()" jq-ui="button"/>
+        </div>
+    </dl>
+    <dl ng-show="shouldShowTagCloud">
+        <div id="myCanvasContainer">
+            <canvas width="600" height="480" id="myCanvas">
+                <p>Anything in here will be replaced on browsers that support the canvas element</p>
+            </canvas>
+        </div>
+        <div id="tags">
+            <ul>
+                <li ng-repeat="tag in tagCloud">
+                    <span href="#" weight="{{20 + tag.weight}}">{{tag.name}}</span>
+                </li>
+            </ul>
+        </div>
+    </dl>
+    <dl style="background-color: #{{section.color}}" class="section-report" ng-repeat="section in sections | orderBy:id">
+        <dt>{{section.name}}</dt>
+        <dd>
+            <ol>
+                <li ng-repeat="idea in section.ideas">
+                    {{idea.content}} [<span class="vote">{{idea.vote}}</span> votes]
+                    <span ng-repeat="tag in idea.tags" class="tag tag-report">{{tag.name}}</span>
+                </li>
+            </ol>
+        </dd>
+    </dl>
+</div>

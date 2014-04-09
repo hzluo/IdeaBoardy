@@ -1,64 +1,68 @@
-Ideaboardy::Application.routes.draw do
-  resources :boards do
-    resources :sections do
-      resources :ideas
+def config_api_routes
+  namespace :api do
+    resources :boards do
+      resources :sections, only: [:index, :create], controller: :board_sections
+      resources :concepts, only: [:index, :create], controller: :board_concepts
+      resources :tags, only: [:index, :create], controller: :board_tags
+      resources :tagcloud, only: [:index], controller: :tag_cloud
     end
+
+    resources :sections, except: [:index, :create] do
+      member do
+        post :immigration
+      end
+      resources :ideas, only: [:index, :create], controller: :section_ideas
+    end
+
+    resources :ideas, except: [:index, :create] do
+      member do
+        post :vote
+        post :merging
+        put :tags
+      end
+      resources :tags, only: :index, controller: :idea_tags
+    end
+
+    resources :tags, except: [:index, :create]
+
+    resources :concepts, except: :create do
+      member do
+        put :tags
+      end
+      resources :tags, only: :index, controller: :concept_tags
+    end
+
+    post 'emails/invitation'
+    post 'emails/share'
   end
+end
 
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
+def config_shorten_url_routes
+  get 'url/:shortenUrlCode' => 'shortenUrl#get'
+end
 
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
+def config_admin_site_routes
+  devise_for :users, :controllers => {:sessions => "admin/sessions"}
+  namespace :admin do
+    resource :settings
+    match 'boards' => 'boards#export'
+    get 'boards/import'
+    get 'boards/download'
+    post 'boards/upload'
+  end
+  match 'admin' => 'admin/settings#show'
+end
 
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
+def config_web_site_routes
+  root :to => 'home#index'
+  match 'm' => 'mobile#index'
+  match '/:mobile' => 'mobile#index', :constraints => {:mobile => /m.*/}
+  match '*everything_else' => 'home#index'
+end
 
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Sample resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Sample resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Sample resource route with more complex sub-resources
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', :on => :collection
-  #     end
-  #   end
-
-  # Sample resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
-
-  # You can have the root of your site routed with "root"
-  # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
-
-  # See how all your routes lay out with "rake routes"
-
-  # This is a legacy wild controller route that's not recommended for RESTful applications.
-  # Note: This route will make all actions in every controller accessible via GET requests.
-  # match ':controller(/:action(/:id))(.:format)'
+IdeaBoardy::Application.routes.draw do
+  config_api_routes
+  config_shorten_url_routes
+  config_admin_site_routes
+  config_web_site_routes
 end

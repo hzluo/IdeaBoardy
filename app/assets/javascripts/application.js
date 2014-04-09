@@ -11,5 +11,17 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery_ujs
-//= require_tree .
+//= require jquery.ui.all
+//= require ./libs/select2
+//= require underscore
+//= require angular
+//= require ./libs/angular-ui
+//= require util
+//= require module
+//= require services-module
+//= require_tree ./filters
+//= require_tree ./services
+//= require_tree ./directives
+//= require_tree ./controllers
+//= require_tree ./precompiled-templates
+//= require ./libs/tagcanvas

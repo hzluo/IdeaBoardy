@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
+Hi all,
+<% url = "#{root_url(host: @hostname)}board/#{@uri}" %>
+<p>Board '<%= @board.name %>' is created here: <a href="<%= url %>"><%= url %></a>.</p>
+
+<p>Please feel free to post your stickies.</p>
+Thanks,<br/>
+IdeaBoardy<br/>
+</body>
+</html>
